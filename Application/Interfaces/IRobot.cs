@@ -2,6 +2,6 @@
 {
     public interface IRobot
     {
-        
+        public void Delivery();
     }
 }

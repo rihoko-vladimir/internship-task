@@ -8,13 +8,23 @@ namespace ConsoleApplication
     {
         private static void Main(string[] args)
         {
-            IParser parser =
-                new ParserService("5x5 (0, 0) (1, 3) (4,4) (4, 2) (4, 2) (0, 1) (3, 2) (2, 3) (4, 1)");
-            IDistanceCalculator calculator = new DistanceCalculationService(parser);
-            foreach (var robotCommand in calculator.GetRoute())
+            if (args.Length!=0)
             {
-                Console.WriteLine(robotCommand);
+                Launch(args[0]);
+                return;
             }
+
+            Console.WriteLine("Enter your data:");
+            var userData = Console.ReadLine();
+            Launch(userData);
+        }
+
+        private static void Launch(string inputData)
+        {
+            IParser parser = new ParserService(inputData);
+            IDistanceCalculator distanceCalculator = new DistanceCalculationService(parser);
+            IRobot robot = new DeliveryRobotService(distanceCalculator);
+            robot.Delivery();
         }
     }
 }
