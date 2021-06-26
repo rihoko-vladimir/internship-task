@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Entities.Entities;
-using Entities.Interfaces;
 using Program.Interfaces;
 
 namespace Program.Services
@@ -24,20 +23,24 @@ namespace Program.Services
         {
             var route = new List<RobotCommand>();
             var sortedPoints = GetSortedStopPoints();
-            route.AddRange(CalculateToNextPoint(new Coordinate(0,0), sortedPoints[0]));
+            route.AddRange(CalculateToNextPoint(new Coordinate
+            {
+                XCoordinate = 0,
+                YCoordinate = 0
+            }, sortedPoints[0]));
             for (var i = 0; i < sortedPoints.Count - 1; i++)
                 route.AddRange(CalculateToNextPoint(sortedPoints[i], sortedPoints[i + 1]));
             return route;
         }
 
 
-        private List<ICoordinate> GetSortedStopPoints()
+        private List<Coordinate> GetSortedStopPoints()
         {
             return _parser.GetParsedData().StopPoints.OrderBy(point => point.XCoordinate)
                 .ThenBy(point => point.YCoordinate).ToList();
         }
 
-        private ICollection<RobotCommand> CalculateToNextPoint(ICoordinate startCoordinate, ICoordinate nextCoordinate)
+        private ICollection<RobotCommand> CalculateToNextPoint(Coordinate startCoordinate, Coordinate nextCoordinate)
         {
             ICollection<RobotCommand> commands = new LinkedList<RobotCommand>();
             var currentPosition = new Position
@@ -80,7 +83,7 @@ namespace Program.Services
             return commands;
         }
 
-        private record Position : ICoordinate
+        private record Position
         {
             public int XCoordinate { get; set; }
             public int YCoordinate { get; set; }

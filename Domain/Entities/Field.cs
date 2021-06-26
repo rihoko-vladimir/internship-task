@@ -1,16 +1,8 @@
-﻿using Entities.Interfaces;
-
-namespace Entities.Entities
+﻿namespace Entities.Entities
 {
-    public record Field : IFieldDefinition
+    public record Field
     {
-        public int XSize { get; }
-        public int YSize { get; }
-
-        public Field(int xSize, int ySize)
-        {
-            XSize = xSize;
-            YSize = ySize;
-        }
-    };
+        public int XSize { get; init; }
+        public int YSize { get; init; }
+    }
 }

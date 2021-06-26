@@ -1,16 +1,8 @@
-﻿using Entities.Interfaces;
-
-namespace Entities.Entities
+﻿namespace Entities.Entities
 {
-    public record Coordinate : ICoordinate
+    public record Coordinate
     {
-        public int XCoordinate { get; }
-        public int YCoordinate { get; }
-
-        public Coordinate(int xCoordinate, int yCoordinate)
-        {
-            XCoordinate = xCoordinate;
-            YCoordinate = yCoordinate;
-        }
+        public int XCoordinate { get; init; }
+        public int YCoordinate { get; init; }
     }
 }
