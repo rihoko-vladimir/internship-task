@@ -2,6 +2,6 @@
 {
     public interface IDataSource
     {
-        string GetData();
+        string Data { get; }
     }
 }

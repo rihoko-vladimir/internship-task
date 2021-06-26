@@ -5,19 +5,19 @@ namespace ConsoleApplication.Classes
 {
     public class ConsoleDataSource : IDataSource
     {
-        public string GetData()
+        public string Data
         {
-            var userData = Console.ReadLine();
-            UserDataValidator(userData);
-            return userData;
+            get
+            {
+                var userData = Console.ReadLine();
+                Validate(userData);
+                return userData;
+            }
         }
 
-        private void UserDataValidator(string userData)
+        private void Validate(string userData)
         {
-            if (userData.Length==0)
-            {
-                throw new ArgumentException("Input string cannot be empty");
-            }
+            if (string.IsNullOrWhiteSpace(userData)) throw new ArgumentException("Input string cannot be empty");
         }
     }
 }

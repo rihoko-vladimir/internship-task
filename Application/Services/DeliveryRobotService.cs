@@ -1,5 +1,6 @@
 ﻿using System;
 using Entities.Entities;
+using Program.Extensions;
 using Program.Interfaces;
 
 namespace Program.Services
@@ -15,39 +16,7 @@ namespace Program.Services
 
         public void Delivery()
         {
-            foreach (var robotCommand in _distanceCalculator.GetRoute())
-                switch (robotCommand)
-                {
-                    case RobotCommand.DropPizza:
-                    {
-                        Console.Write("D");
-                        break;
-                    }
-                    case RobotCommand.MoveEast:
-                    {
-                        Console.Write("E");
-                        break;
-                    }
-                    case RobotCommand.MoveNorth:
-                    {
-                        Console.Write("N");
-                        break;
-                    }
-                    case RobotCommand.MoveSouth:
-                    {
-                        Console.Write("S");
-                        break;
-                    }
-                    case RobotCommand.MoveWest:
-                    {
-                        Console.Write("W");
-                        break;
-                    }
-                    default:
-                    {
-                        throw new ArgumentException();
-                    }
-                }
+            foreach (var robotCommand in _distanceCalculator.GetRoute()) Console.Write(robotCommand.ToFriendlyString());
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Entities.Entities;
+using Program.Exceptions;
 using Program.Interfaces;
 
 namespace Program.Services
@@ -99,21 +99,6 @@ namespace Program.Services
             }
 
             return points;
-        }
-    }
-
-    internal class InvalidFieldCoordinateException : Exception
-    {
-        public InvalidFieldCoordinateException(string errorDescription) : base(
-            errorDescription)
-        {
-        }
-    }
-
-    internal class InvalidCoordinatesException : Exception
-    {
-        public InvalidCoordinatesException(string errorDescription) : base(errorDescription)
-        {
         }
     }
 }

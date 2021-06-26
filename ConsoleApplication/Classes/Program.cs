@@ -1,4 +1,6 @@
 ﻿using ConsoleApplication.Interfaces;
+using Program.Interfaces;
+using Program.Services;
 
 namespace ConsoleApplication.Classes
 {
@@ -7,12 +9,15 @@ namespace ConsoleApplication.Classes
         private static void Main(string[] args)
         {
             IDataSource dataSource;
-            IApplication application = new MainApplication();
             if (args.Length != 0)
-                dataSource = new ArgumentsDataSource(string.Join(" ", args));
+                dataSource = new ArgumentsDataSource(string.Join("", args));
             else
                 dataSource = new ConsoleDataSource();
-            application.Initialise(dataSource).Run();
+            IParser parser = new ParserService(dataSource.Data);
+            IDistanceCalculator calculator = new DistanceCalculationService(parser);
+            IRobot robot = new DeliveryRobotService(calculator);
+            IApplication application = new MainApplication(robot);
+            application.Run();
         }
     }
 }
