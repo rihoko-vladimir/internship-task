@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Entities.Entities;
 using Program.Interfaces;
@@ -23,11 +24,13 @@ namespace Program.Services
         {
             var route = new List<RobotCommand>();
             var sortedPoints = GetSortedStopPoints();
+            foreach (var sortedPoint in sortedPoints) Console.WriteLine(sortedPoint);
             route.AddRange(CalculateToNextPoint(new Coordinate
             {
                 XCoordinate = 0,
                 YCoordinate = 0
             }, sortedPoints[0]));
+            Console.WriteLine();
             for (var i = 0; i < sortedPoints.Count - 1; i++)
                 route.AddRange(CalculateToNextPoint(sortedPoints[i], sortedPoints[i + 1]));
             return route;
@@ -43,43 +46,19 @@ namespace Program.Services
         private ICollection<RobotCommand> CalculateToNextPoint(Coordinate startCoordinate, Coordinate nextCoordinate)
         {
             ICollection<RobotCommand> commands = new LinkedList<RobotCommand>();
-            var currentPosition = new Position
-                {XCoordinate = startCoordinate.XCoordinate, YCoordinate = startCoordinate.YCoordinate};
-            while (currentPosition.XCoordinate <= nextCoordinate.XCoordinate &&
-                   currentPosition.YCoordinate <= nextCoordinate.YCoordinate)
-            {
-                if (currentPosition.XCoordinate == nextCoordinate.XCoordinate &&
-                    currentPosition.YCoordinate == nextCoordinate.YCoordinate)
-                {
-                    commands.Add(RobotCommand.DropPizza);
-                    break;
-                }
-
-                if (currentPosition.XCoordinate < nextCoordinate.XCoordinate)
-                {
+            if (startCoordinate.XCoordinate < nextCoordinate.XCoordinate)
+                for (var i = startCoordinate.XCoordinate; i < nextCoordinate.XCoordinate; i++)
                     commands.Add(RobotCommand.MoveEast);
-                    currentPosition.XCoordinate++;
-                }
-
-                if (currentPosition.XCoordinate > nextCoordinate.XCoordinate)
-                {
-                    commands.Add(RobotCommand.MoveWest);
-                    currentPosition.XCoordinate--;
-                }
-
-                if (currentPosition.YCoordinate < nextCoordinate.YCoordinate)
-                {
+            if (startCoordinate.YCoordinate < nextCoordinate.YCoordinate)
+                for (var i = startCoordinate.YCoordinate; i < nextCoordinate.YCoordinate; i++)
                     commands.Add(RobotCommand.MoveNorth);
-                    currentPosition.YCoordinate++;
-                }
-
-                if (currentPosition.YCoordinate > nextCoordinate.YCoordinate)
-                {
+            if (startCoordinate.XCoordinate > nextCoordinate.XCoordinate)
+                for (var i = startCoordinate.XCoordinate; i > nextCoordinate.XCoordinate; i--)
+                    commands.Add(RobotCommand.MoveWest);
+            if (startCoordinate.YCoordinate > nextCoordinate.YCoordinate)
+                for (var i = startCoordinate.YCoordinate; i > nextCoordinate.YCoordinate; i--)
                     commands.Add(RobotCommand.MoveSouth);
-                    currentPosition.YCoordinate--;
-                }
-            }
-
+            commands.Add(RobotCommand.DropPizza);
             return commands;
         }
 
