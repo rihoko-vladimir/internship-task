@@ -1,4 +1,6 @@
-﻿namespace Entities
+﻿using Entities.Interfaces;
+
+namespace Entities.Entities
 {
     public record StopPoint : IStopPoint
     {

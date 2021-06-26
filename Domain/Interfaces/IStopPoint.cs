@@ -1,4 +1,4 @@
-﻿namespace Entities
+﻿namespace Entities.Interfaces
 {
     public interface IStopPoint
     {

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Entities.Interfaces;
 
-namespace Entities
+namespace Entities.Entities
 {
     public record Field : IFieldDefinition
     {
