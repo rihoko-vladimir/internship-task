@@ -1,6 +1,7 @@
 ﻿using System;
+using ConsoleApplication.Interfaces;
 
-namespace ConsoleApplication
+namespace ConsoleApplication.Classes
 {
     public class ConsoleDataSource : IDataSource
     {

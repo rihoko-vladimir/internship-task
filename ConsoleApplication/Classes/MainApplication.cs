@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualBasic.CompilerServices;
+using ConsoleApplication.Interfaces;
 using Program.Interfaces;
 using Program.Services;
 
-namespace ConsoleApplication
+namespace ConsoleApplication.Classes
 {
     public class MainApplication : IApplication
     {

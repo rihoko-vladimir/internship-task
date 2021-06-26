@@ -1,4 +1,6 @@
-﻿namespace ConsoleApplication
+﻿using ConsoleApplication.Interfaces;
+
+namespace ConsoleApplication.Classes
 {
     internal class Program
     {

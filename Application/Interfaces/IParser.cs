@@ -1,5 +1,4 @@
-﻿using Entities;
-using Entities.Entities;
+﻿using Entities.Entities;
 
 namespace Program.Interfaces
 {
