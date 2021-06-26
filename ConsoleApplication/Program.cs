@@ -9,24 +9,17 @@ namespace ConsoleApplication
     {
         private static void Main(string[] args)
         {
+            IDataSource dataSource;
+            IApplication application = new MainApplication();
             if (args.Length!=0)
             {
-                var concatenatedArgs = string.Join(" ",args);
-                Launch(concatenatedArgs);
-                return;
+                dataSource = new ArgumentsDataSource(string.Join(" ", args));
             }
-
-            Console.WriteLine("Enter your data:");
-            var userData = Console.ReadLine();
-            Launch(userData);
-        }
-
-        private static void Launch(string inputData)
-        {
-            IParser parser = new ParserService(inputData);
-            IDistanceCalculator distanceCalculator = new DistanceCalculationService(parser);
-            IRobot robot = new DeliveryRobotService(distanceCalculator);
-            robot.Delivery();
+            else
+            {
+                dataSource = new ConsoleDataSource();
+            }
+            application.Initialise(dataSource).Run();
         }
     }
 }
