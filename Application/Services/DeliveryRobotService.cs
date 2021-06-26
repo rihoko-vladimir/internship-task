@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Program.Extensions;
 using Program.Interfaces;
 
@@ -15,7 +16,17 @@ namespace Program.Services
 
         public void Delivery()
         {
-            foreach (var robotCommand in _distanceCalculator.GetRoute()) Console.Write(robotCommand.ToFriendlyString());
+            foreach (var robotCommand in _distanceCalculator.GetRoute())
+                Console.Write(robotCommand.ToFriendlyString());
+        }
+
+        public string GetRobotRoute()
+        {
+            var builder = new StringBuilder();
+            foreach (var robotCommand in _distanceCalculator.GetRoute())
+                builder.Append(robotCommand.ToFriendlyString());
+
+            return builder.ToString();
         }
     }
 }

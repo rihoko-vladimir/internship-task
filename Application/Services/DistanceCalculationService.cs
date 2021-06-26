@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Entities.Entities;
+using Program.Exceptions;
 using Program.Interfaces;
 
 namespace Program.Services
@@ -22,24 +22,31 @@ namespace Program.Services
 
         private ICollection<RobotCommand> CalculateWholeRoute()
         {
+            VerifyPointsAreInField(_parser.Coordinates, _parser.Field);
             var route = new List<RobotCommand>();
             var sortedPoints = GetSortedStopPoints();
-            foreach (var sortedPoint in sortedPoints) Console.WriteLine(sortedPoint);
             route.AddRange(CalculateToNextPoint(new Coordinate
             {
                 XCoordinate = 0,
                 YCoordinate = 0
             }, sortedPoints[0]));
-            Console.WriteLine();
             for (var i = 0; i < sortedPoints.Count - 1; i++)
                 route.AddRange(CalculateToNextPoint(sortedPoints[i], sortedPoints[i + 1]));
             return route;
         }
 
+        private void VerifyPointsAreInField(ICollection<Coordinate> parserCoordinates, Field parserField)
+        {
+            foreach (var parserCoordinate in parserCoordinates)
+                if (parserCoordinate.XCoordinate > parserField.XSize ||
+                    parserCoordinate.YCoordinate > parserField.YSize)
+                    throw new InvalidCoordinatesException("Point is out of field range");
+        }
+
 
         private List<Coordinate> GetSortedStopPoints()
         {
-            return _parser.GetParsedData().StopPoints.OrderBy(point => point.XCoordinate)
+            return _parser.Coordinates.OrderBy(point => point.XCoordinate)
                 .ThenBy(point => point.YCoordinate).ToList();
         }
 
@@ -60,12 +67,6 @@ namespace Program.Services
                     commands.Add(RobotCommand.MoveSouth);
             commands.Add(RobotCommand.DropPizza);
             return commands;
-        }
-
-        private record Position
-        {
-            public int XCoordinate { get; set; }
-            public int YCoordinate { get; set; }
         }
     }
 }

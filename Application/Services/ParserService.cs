@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Entities.Entities;
 using Program.Exceptions;
@@ -15,34 +17,8 @@ namespace Program.Services
             _rawData = rawData;
         }
 
-        public ParsedProperties GetParsedData()
-        {
-            var stopPoints = ParsePoints();
-            var field = ParseField();
-            VerifyValidility(stopPoints, field);
-            return new ParsedProperties
-            {
-                StopPoints = stopPoints,
-                Field = field
-            };
-        }
-
-        private void VerifyValidility(ICollection<Coordinate> stopPoints, Field field)
-        {
-            if (field.XSize < 0) throw new InvalidFieldCoordinateException("X coordinate cannot be less than zero");
-
-            if (field.YSize < 0) throw new InvalidFieldCoordinateException("Y coordinate cannot be less than zero");
-            foreach (var stopPoint in stopPoints)
-            {
-                if (stopPoint.XCoordinate > field.XSize)
-                    throw new InvalidCoordinatesException("X coordinate of point is not in the field range");
-
-                if (stopPoint.YCoordinate > field.YSize)
-                    throw new InvalidCoordinatesException("Y coordinate of point is not in the field range");
-                if (stopPoint.XCoordinate < 0 || stopPoint.YCoordinate < 0)
-                    throw new InvalidCoordinatesException("Point coordinate cannot be negative");
-            }
-        }
+        public Field Field => ParseField();
+        public ICollection<Coordinate> Coordinates => ParsePoints();
 
         private Field ParseField()
         {
@@ -62,11 +38,13 @@ namespace Program.Services
                     int.TryParse(match.Value, out y);
                 }
 
-            return new Field
+            var field = new Field
             {
                 XSize = x,
                 YSize = y
             };
+            VerifyField(field);
+            return field;
         }
 
         private ICollection<Coordinate> ParsePoints()
@@ -75,6 +53,7 @@ namespace Program.Services
             var expressionMain = new Regex(@"\((.*?)\)");
             var expressionForNumber = new Regex(@"-?[0-9]+");
             var matches = expressionMain.Matches(_rawData);
+            if (matches.Count == 0) throw new ParseException("Invalid data");
             foreach (Match match in matches)
             {
                 var isX = true;
@@ -98,7 +77,22 @@ namespace Program.Services
                 });
             }
 
+            VerifyPoints(points);
+
             return points;
+        }
+
+        private void VerifyField(Field field)
+        {
+            if (field.XSize < 0) throw new InvalidFieldCoordinateException("X coordinate cannot be less than zero");
+
+            if (field.YSize < 0) throw new InvalidFieldCoordinateException("Y coordinate cannot be less than zero");
+        }
+
+        private void VerifyPoints(ICollection<Coordinate> stopPoints)
+        {
+            if (stopPoints.Any(stopPoint => stopPoint.XCoordinate < 0 || stopPoint.YCoordinate < 0))
+                throw new InvalidCoordinatesException("Point coordinate cannot be negative");
         }
     }
 }

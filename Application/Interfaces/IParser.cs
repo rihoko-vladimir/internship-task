@@ -1,9 +1,11 @@
-﻿using Entities.Entities;
+﻿using System.Collections.Generic;
+using Entities.Entities;
 
 namespace Program.Interfaces
 {
     public interface IParser
     {
-        public ParsedProperties GetParsedData();
+        Field Field { get; }
+        ICollection<Coordinate> Coordinates { get; }
     }
 }
