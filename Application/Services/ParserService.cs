@@ -48,26 +48,21 @@ namespace Program.Services
         {
             var x = -1;
             var y = -1;
-            var tempBuilder = new StringBuilder();
-            for (var i = 0; i < _rawData.Length; i++)
+            var isX = true;
+            var regexForRawField = new Regex(@"-?\d*x-?\d*");
+            var regexForDigits = new Regex(@"-?[0-9]+");
+            foreach (Match match in regexForDigits.Matches(regexForRawField.Match(_rawData).Value))
             {
-                var currentCharacter = _rawData[i];
-                if (currentCharacter == 'x')
+                if (isX)
                 {
-                    int.TryParse(tempBuilder.ToString(), out x);
-                    tempBuilder.Clear();
-                    continue;
+                    Int32.TryParse(match.Value, out x);
+                    isX = false;
                 }
-
-                if (currentCharacter == ' ')
+                else
                 {
-                    int.TryParse(tempBuilder.ToString(), out y);
-                    break;
+                    Int32.TryParse(match.Value, out y);
                 }
-
-                tempBuilder.Append(currentCharacter);
             }
-
             return new Field(x, y);
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Program.Interfaces;
 using Program.Services;
 
@@ -10,7 +11,8 @@ namespace ConsoleApplication
         {
             if (args.Length!=0)
             {
-                Launch(args[0]);
+                var concatenatedArgs = string.Join(" ",args);
+                Launch(concatenatedArgs);
                 return;
             }
 
