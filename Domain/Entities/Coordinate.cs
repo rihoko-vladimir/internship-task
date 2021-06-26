@@ -2,12 +2,12 @@
 
 namespace Entities.Entities
 {
-    public record StopPoint : IStopPoint
+    public record Coordinate : ICoordinate
     {
         public int XCoordinate { get; }
         public int YCoordinate { get; }
 
-        public StopPoint(int xCoordinate, int yCoordinate)
+        public Coordinate(int xCoordinate, int yCoordinate)
         {
             XCoordinate = xCoordinate;
             YCoordinate = yCoordinate;

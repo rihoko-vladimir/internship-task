@@ -8,7 +8,7 @@ using Program.Interfaces;
 
 namespace Program.Services
 {
-    public class ParserService : IParserService
+    public class ParserService : IParser
     {
         private readonly string _rawData;
 
@@ -25,7 +25,7 @@ namespace Program.Services
             return new ParsedProperties(field, stopPoints);
         }
 
-        private void VerifyValidility(List<IStopPoint> stopPoints, IFieldDefinition field)
+        private void VerifyValidility(ICollection<ICoordinate> stopPoints, IFieldDefinition field)
         {
             if (field.XSize < 0) throw new InvalidFieldCoordinateException("X coordinate cannot be less than zero");
 
@@ -71,9 +71,9 @@ namespace Program.Services
             return new Field(x, y);
         }
 
-        private List<IStopPoint> ParsePoints()
+        private ICollection<ICoordinate> ParsePoints()
         {
-            List<IStopPoint> points = new List<IStopPoint>();
+            ICollection<ICoordinate> points = new List<ICoordinate>();
             var expressionMain = new Regex(@"\((.*?)\)");
             var expressionForNumber = new Regex(@"-?[0-9]+");
             var matches = expressionMain.Matches(_rawData);
@@ -95,7 +95,7 @@ namespace Program.Services
                     }
                 }
 
-                points.Add(new StopPoint(x, y));
+                points.Add(new Coordinate(x, y));
             }
 
             return points;

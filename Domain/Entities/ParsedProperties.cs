@@ -6,9 +6,9 @@ namespace Entities.Entities
     public record ParsedProperties
     {
         public IFieldDefinition Field { get; }
-        public List<IStopPoint> StopPoints { get; }
+        public ICollection<ICoordinate> StopPoints { get; }
 
-        public ParsedProperties(IFieldDefinition field, List<IStopPoint> stopPoints)
+        public ParsedProperties(IFieldDefinition field, ICollection<ICoordinate> stopPoints)
         {
             this.Field = field;
             this.StopPoints = stopPoints;

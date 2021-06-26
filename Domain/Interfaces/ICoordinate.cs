@@ -1,6 +1,6 @@
 ﻿namespace Entities.Interfaces
 {
-    public interface IStopPoint
+    public interface ICoordinate
     {
         public int XCoordinate { get; }
         public int YCoordinate { get; }

@@ -3,7 +3,7 @@ using Entities.Entities;
 
 namespace Program.Interfaces
 {
-    public interface IParserService
+    public interface IParser
     {
         public ParsedProperties GetParsedData();
     }
