@@ -9,6 +9,7 @@ namespace ConsoleApplication.Classes
         {
             get
             {
+                Console.WriteLine("Input your data below:");
                 var userData = Console.ReadLine();
                 Validate(userData);
                 return userData;
