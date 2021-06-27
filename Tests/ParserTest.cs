@@ -40,7 +40,7 @@ namespace Tests
                 XSize = 5,
                 YSize = 5
             };
-            Assert.Equal(parsedField,correctField);
+            Assert.Equal(parsedField, correctField);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace Tests
             {
                 var _ = parserService.Field;
                 var x = _.XSize;
-            });   
+            });
         }
     }
 }

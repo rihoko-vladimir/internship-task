@@ -10,14 +10,17 @@ namespace Program.Services
     public class ParserService : IParser
     {
         private readonly string _rawData;
+        private Field _field;
+        private ICollection<Coordinate> _points;
 
         public ParserService(string rawData)
         {
             _rawData = rawData;
         }
 
-        public Field Field => ParseField();
-        public ICollection<Coordinate> Coordinates => ParsePoints();
+        public Field Field => _field ??= ParseField();
+
+        public ICollection<Coordinate> Coordinates => _points ??= ParsePoints();
 
         private Field ParseField()
         {
