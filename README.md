@@ -1,6 +1,6 @@
 # Pizza delivery robot
 
-Pizza delivery bar is a task for applying for internship at iTechArt Group
+Pizza delivery robot is a task for applying for internship at iTechArt Group
 
 ## Installation
 
