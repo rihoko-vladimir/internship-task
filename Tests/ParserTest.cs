@@ -11,15 +11,10 @@ namespace Tests
     public class ParserTest
     {
         [Fact]
-        public void TestParseWithCorrectData()
+        public void PointsParseTest()
         {
             var parserService =
                 new ParserService("5x5 (0, 0) (1, 3) (4,4) (4, 2) (4, 2) (0, 1) (3, 2) (2, 3) (4, 1)");
-            Assert.Equal(parserService.Field, new Field
-            {
-                XSize = 5,
-                YSize = 5
-            });
             IEnumerable<Coordinate> coordinates = new List<Coordinate>
             {
                 new() {XCoordinate = 0, YCoordinate = 0},
@@ -36,7 +31,20 @@ namespace Tests
         }
 
         [Fact]
-        public void TestParseWithIncorrectData()
+        public void FieldParseTest()
+        {
+            IParser parserService = new ParserService("5x5");
+            var parsedField = parserService.Field;
+            var correctField = new Field
+            {
+                XSize = 5,
+                YSize = 5
+            };
+            Assert.Equal(parsedField,correctField);
+        }
+
+        [Fact]
+        public void PointsParseWithIncorrectDataTest()
         {
             IParser parserService =
                 new ParserService("dgfhdfghdfghdfghdfhfgh");
@@ -45,11 +53,18 @@ namespace Tests
                 var _ = parserService.Coordinates;
                 var count = _.Count;
             });
+        }
+
+        [Fact]
+        public void FieldParseWithIncorrectDataTest()
+        {
+            IParser parserService =
+                new ParserService("rtwhwrthwr");
             Assert.ThrowsAny<Exception>(() =>
             {
                 var _ = parserService.Field;
                 var x = _.XSize;
-            });
+            });   
         }
     }
 }
