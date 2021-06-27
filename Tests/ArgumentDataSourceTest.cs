@@ -7,11 +7,12 @@ namespace Tests
     public class ArgumentDataSourceTest
     {
         [Fact]
-        public void Test()
+        public void TestArgumentsAreTheSame()
         {
             var testArgument = "hello world";
             IDataSource dataSource = new ArgumentsDataSource(testArgument);
-            Assert.Equal(dataSource.Data,testArgument);
+            var returnedArgument = dataSource.Data;
+            Assert.Equal(testArgument, returnedArgument);
         }
     }
 }
