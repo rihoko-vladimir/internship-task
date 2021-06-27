@@ -10,7 +10,7 @@ namespace Tests
     public class MainApplicationTest
     {
         [Fact]
-        public void Test()
+        public void RunWithCorrectDataTest()
         {
             IParser parser = new ParserService("5x5 (0, 0) (1, 3) (4,4) (4, 2) (4, 2) (0, 1) (3, 2) (2, 3) (4, 1)");
             IDistanceCalculator calculator = new DistanceCalculationService(parser);
